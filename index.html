@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#101716" />
+    <meta name="description" content="An essay on liberalism, democracy, government and civic equality." />
+    <title>Liberalism and democracy</title>
+    <link rel="icon" type="image/png" sizes="64x64" href="https://res.cloudinary.com/jb0nkyvj/image/upload/c_pad,w_64,h_64,b_transparent,f_png,q_auto/1000015593" />
+    <style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap');
+
+:root {
+  color-scheme: dark;
+  --ink: #e9eee8;
+  --muted: #a2ada4;
+  --gold: #d7b977;
+  --green: #9eb9a5;
+  --night: #101716;
+  --serif: 'Playfair Display', Georgia, serif;
+  --sans: 'DM Sans', Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
+body {
+  margin: 0;
+  min-width: 320px;
+  overflow-x: hidden;
+  background: var(--night);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.8;
+}
+::selection { background: rgba(215, 185, 119, .3); color: white; }
+#atmosphere { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+main { z-index: 1; }
+.ambient { position: fixed; z-index: -1; width: 36rem; height: 36rem; border-radius: 50%; filter: blur(100px); opacity: .12; pointer-events: none; transition: transform 1.4s ease-out; }
+.ambient-one { top: 8%; left: -20rem; background: #537b69; }
+.ambient-two { top: 48%; right: -22rem; background: #9d7444; opacity: .1; }
+.topbar {
+  position: sticky;
+  z-index: 5;
+  top: 0;
+  left: 0;
+  display: flex;
+  width: 100%;
+  min-height: 4.5rem;
+  justify-content: flex-end;
+  align-items: center;
+  padding: .8rem clamp(1.25rem, 6vw, 6.5rem);
+  background: rgba(16, 23, 22, .82);
+  border-bottom: 1px solid rgba(215, 185, 119, .1);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+.scroll-progress {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  overflow: hidden;
+  background: rgba(233, 238, 232, .08);
+}
+.scroll-progress span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, var(--green), var(--gold));
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform .08s linear;
+}
+.wordmark { color: var(--ink); text-decoration: none; font-size: .77rem; font-weight: 700; letter-spacing: .16em; }
+.wordmark span { color: var(--gold); padding: 0 .15rem; }
+.language-control { position: relative; }
+.language-control::after { content: '⌄'; position: absolute; top: 50%; right: .25rem; transform: translateY(-55%); color: var(--gold); pointer-events: none; }
+.language-control select {
+  appearance: none;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--ink);
+  font: 500 .84rem var(--sans);
+  cursor: pointer;
+  padding: .45rem 1.4rem .45rem .5rem;
+}
+.language-control option { background: #17211e; color: var(--ink); }
+main { position: relative; }
+.hero {
+  min-height: 95vh;
+  min-height: 95svh;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(15rem, .8fr);
+  align-items: center;
+  position: relative;
+  padding: 8rem clamp(1.5rem, 12vw, 12rem) 7rem;
+}
+.hero-copy { max-width: 54rem; position: relative; z-index: 1; }
+.eyebrow, .section-index, .side-note, .hero-note, .closing-label { color: var(--gold); text-transform: uppercase; letter-spacing: .16em; font-size: .69rem; font-weight: 600; }
+.eyebrow { margin: 0 0 1.8rem; }
+h1, h2, h3, p { margin-top: 0; }
+h1 { max-width: 12ch; margin-bottom: 1.6rem; font: 400 clamp(3.5rem, 7.7vw, 8rem)/1.01 var(--serif); letter-spacing: -.055em; }
+.hero-lede { max-width: 38rem; color: #c1cbc2; font-size: clamp(1.03rem, 1.4vw, 1.22rem); line-height: 1.85; }
+.scroll-cue { display: inline-flex; gap: 1rem; align-items: center; margin-top: 2.7rem; color: var(--ink); text-decoration: none; font-size: .79rem; letter-spacing: .05em; transition: color .25s ease; }
+.scroll-cue:hover { color: var(--gold); }
+.cue-arrow { display: grid; place-items: center; width: 2.35rem; height: 2.35rem; border-radius: 50%; background: rgba(255,255,255,.07); color: var(--gold); font-size: 1.1rem; transition: transform .25s ease, background .25s ease; }
+.scroll-cue:hover .cue-arrow { transform: translateY(4px); background: rgba(215,185,119,.15); }
+.hero-orbit { width: min(31vw, 26rem); aspect-ratio: 1; position: relative; justify-self: end; margin-right: 1vw; opacity: .8; }
+.orbit { position: absolute; inset: 12%; border: 1px solid rgba(215,185,119,.26); border-radius: 50%; }
+.orbit-a { transform: rotate(-35deg) scaleY(.42); }
+.orbit-b { transform: rotate(35deg) scaleY(.42); }
+.orbit-core { position: absolute; inset: 36%; border-radius: 50%; background: radial-gradient(circle at 35% 32%, #e7d5a7, #b99559 42%, rgba(119,137,105,.18) 72%, transparent 74%); box-shadow: 0 0 5rem rgba(215,185,119,.12); }
+.orbit-dot { position: absolute; top: 14%; left: 52%; width: .5rem; height: .5rem; border-radius: 50%; background: var(--green); box-shadow: 0 0 1.5rem var(--green); }
+.orbit-caption { position: absolute; right: -1.2rem; bottom: 18%; color: var(--muted); font-size: .66rem; letter-spacing: .12em; }
+.hero-note { position: absolute; right: clamp(1.5rem, 6vw, 6.5rem); bottom: 2rem; max-width: 17rem; color: var(--muted); text-align: right; line-height: 1.7; }
+.essay-wrap { display: grid; grid-template-columns: minmax(7rem, 1fr) minmax(0, 52rem) minmax(2rem, 1fr); padding: 4rem clamp(1.5rem, 8vw, 8rem) 2rem; }
+.side-note { grid-column: 1; align-self: start; position: sticky; top: 2rem; max-width: 8rem; line-height: 1.8; }
+.essay { grid-column: 2; }
+.intro { margin: 0 0 7rem; font: 400 clamp(1.45rem, 2.5vw, 2.25rem)/1.55 var(--serif); color: #dbe2d9; }
+.essay-section { margin: 0 0 6.5rem; }
+.section-index { display: block; margin-bottom: 1.25rem; color: var(--green); }
+h2 { max-width: 20ch; margin-bottom: 1.6rem; font: 400 clamp(2.2rem, 4vw, 3.9rem)/1.12 var(--serif); letter-spacing: -.035em; }
+h3 { margin: 2.6rem 0 .9rem; color: #e2ce9e; font: 500 clamp(1.2rem, 2vw, 1.55rem)/1.35 var(--serif); }
+.essay p { max-width: 44rem; margin: 0 0 1.35rem; color: #b9c3ba; line-height: 1.95; }
+.essay strong { color: var(--ink); font-weight: 600; transition: color .25s ease; }
+.essay p:hover strong { color: var(--gold); }
+.pull-quote { margin: 2.5rem 0; padding: .3rem 0 .3rem 1.5rem; color: var(--gold); font: 400 clamp(1.35rem, 2.2vw, 1.9rem)/1.55 var(--serif); max-width: 40rem; }
+.essay ul { max-width: 44rem; margin: .8rem 0 1.6rem; padding: 0; list-style: none; }
+.essay li { position: relative; padding: 0 0 .8rem 1.5rem; color: #b9c3ba; line-height: 1.85; }
+.essay li::before { content: '✳'; position: absolute; left: 0; top: .08rem; color: var(--gold); font-size: .78rem; }
+.closing { padding: 4rem clamp(1.5rem, 12vw, 12rem) 8rem; }
+.closing-inner { max-width: 52rem; margin-left: auto; }
+.closing h2 { margin: .8rem 0 1.3rem; }
+.closing p { max-width: 44rem; color: #b9c3ba; }
+.closing .closing-question { color: var(--gold); font: 400 clamp(1.4rem, 2.5vw, 2rem)/1.5 var(--serif); }
+.sources { margin: 0 clamp(1rem, 5vw, 5rem) 2rem; padding: clamp(2rem, 5vw, 4rem); background: #050606; color: #d6ddd6; }
+.sources-inner { max-width: 64rem; margin: 0 auto; }
+.sources-label { margin: 0 0 1.5rem; color: var(--gold); text-transform: uppercase; letter-spacing: .16em; font-size: .7rem; font-weight: 600; }
+.sources-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .85rem 2rem; margin: 0; padding-left: 1.5rem; }
+.sources-list li { padding-left: .25rem; color: #aeb8af; font-size: .82rem; line-height: 1.7; overflow-wrap: anywhere; }
+.sources-list li::marker { color: var(--gold); }
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity .8s ease, transform .8s cubic-bezier(.2,.7,.2,1); }
+.reveal.is-visible { opacity: 1; transform: translateY(0); }
+.back-top { position: fixed; z-index: 10; right: clamp(1rem, 3vw, 2.5rem); bottom: 1.5rem; width: 3rem; height: 3rem; display: grid; place-items: center; border: 0; border-radius: 50%; background: rgba(215,185,119,.92); color: #18201b; font-size: 1.35rem; cursor: pointer; opacity: 0; visibility: hidden; transform: translateY(10px); transition: opacity .25s ease, visibility .25s ease, transform .25s ease, background .25s ease; }
+.back-top.visible { opacity: 1; visibility: visible; transform: translateY(0); }
+.back-top:hover { background: #eddaa9; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+
+@media (max-width: 800px) {
+  .hero { grid-template-columns: 1fr; min-height: 88svh; padding-top: 8rem; padding-bottom: 8rem; }
+  .hero-orbit { position: absolute; width: min(48vw, 19rem); right: 4%; bottom: 8%; opacity: .4; }
+  .hero-note { left: 1.5rem; right: auto; bottom: 1rem; text-align: left; }
+  .essay-wrap { grid-template-columns: 1fr; padding-top: 3rem; }
+  .side-note { position: static; grid-column: 1; max-width: none; margin-bottom: 3rem; }
+  .essay { grid-column: 1; }
+  .intro { margin-bottom: 5rem; }
+}
+@media (max-width: 520px) {
+  body { font-size: 15px; }
+  .topbar { min-height: 3.8rem; padding: .65rem 1.2rem; }
+  .hero { min-height: 86svh; padding: 7.5rem 1.3rem 7.5rem; }
+  h1 { font-size: clamp(3.2rem, 15vw, 5.4rem); }
+  .hero-lede { font-size: .98rem; }
+  .hero-orbit { width: 12rem; right: -1rem; bottom: 8%; }
+  .hero-note { max-width: 14rem; font-size: .58rem; }
+  .essay-wrap { padding: 2.5rem 1.3rem 1rem; }
+  .essay-section { margin-bottom: 5rem; }
+  .intro { font-size: 1.42rem; }
+  .closing { padding: 3rem 1.3rem 6rem; }
+  .sources { margin: 0 .65rem 1rem; padding: 1.6rem 1.2rem; }
+  .sources-list { grid-template-columns: 1fr; gap: .65rem; }
+  .back-top { width: 2.8rem; height: 2.8rem; bottom: 1rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
+  .reveal { opacity: 1; transform: none; }
+}
+    </style>
+  </head>
+  <body>
+    <canvas id="atmosphere" aria-hidden="true"></canvas>
+    <div class="ambient ambient-one" aria-hidden="true"></div>
+    <div class="ambient ambient-two" aria-hidden="true"></div>
+
+    <header class="topbar">
+      <label class="language-control">
+        <span class="visually-hidden" id="language-label">Choose language</span>
+        <select id="language" aria-labelledby="language-label">
+          <option value="de">Deutsch</option>
+          <option value="en">English</option>
+          <option value="uk" selected>Українська</option>
+        </select>
+      </label>
+      <div class="scroll-progress" role="progressbar" aria-label="Reading progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+        <span id="scroll-progress-fill"></span>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <h1 id="hero-title"></h1>
+          <p class="hero-lede" id="hero-lede"></p>
+        </div>
+      </section>
+
+      <section class="essay-wrap" id="essay">
+        <article class="essay" id="essay-content"></article>
+      </section>
+
+      <footer class="closing" id="closing"></footer>
+      <section class="sources" id="sources" aria-labelledby="sources-heading"></section>
+    </main>
+
+    <button class="back-top" id="back-top" type="button" aria-label="Back to top"><span aria-hidden="true">↑</span></button>
+    <script>
+const copy = {
+  uk: {
+    langLabel: 'Оберіть мову', title: 'Лібералізм і демократія', lede: 'Взаємодія свободи, народовладдя та влади уряду у суспільстві, де громадяни мають рівний політичний статус, але по різному уявляють справедливе життя.',
+    intro: 'Лібералізм і демократія не є ані природними союзниками, ані неминучими суперниками. Лібералізм захищає свободи та права людини, демократія дає громадянам змогу спільно визначати обов’язкові правила. Їхня взаємодія ставить питання про те, коли уряд має право діяти від імені всіх, і де проходять межі цієї влади.',
+    sections: [
+      {title:'Свобода і спільне самоврядування', blocks:[['p','Ліберальна демократія поєднує два принципи. Кожна людина має основні свободи та рівний громадянський статус. Водночас закони не виникають самі собою: їх ухвалюють через політичні процедури, у яких громадяни повинні мати справедливу можливість брати участь. Права захищають людину від свавілля, а демократія дає їй голос у формуванні спільного порядку [1, 2].'],['p','Між цими принципами виникає напруга. Більшість може підтримати рішення, що обмежує права меншини. З іншого боку, надмірні обмеження демократичного вибору можуть позбавити громадян реального впливу на правила, яким вони підкоряються. Тому легітимний лад має одночасно захищати основні свободи й зберігати змістовну участь громадян [3, 4].'],['quote','Свобода потребує захисту від влади, а демократія потребує свободи, щоб громадяни могли творити закон разом.']]},
+      {title:'Громадянська рівність як спільна основа', blocks:[['p','Громадянська рівність означає, що держава визнає кожну людину рівним учасником політичного життя, а не підданим другого сорту. Це не вимагає однакового способу життя чи однакових переконань. Вимога полягає в рівній повазі, захисті основних прав і справедливій можливості впливати на рішення [3, 7].'],['p','З цієї ідеї випливає принцип колективного самозаконодавства. Громадяни мають мати змогу демократично обирати закони, якщо ті не позбавляють інших рівного статусу. Демократія без прав може перетворитися на панування більшості. Права без демократії залишають людей адресатами правил, але не їхніми співтворцями [1, 3].'],['p','Коли права і демократичний вибір конфліктують, запитання полягає не в тому, який принцип завжди перемагає. Варто оцінювати, яке рішення менше шкодить рівному громадянському статусу та залишає людям реальну можливість оскаржувати владу.']]},
+      {title:'Публічне виправдання влади', blocks:[['p','Держава застосовує примус: вона ухвалює закони, збирає податки та визначає межі дозволеної поведінки. Самої законної процедури недостатньо, щоб пояснити, чому такі рішення можна обов’язково поширити на всіх. Уряд має наводити причини, які громадяни можуть зрозуміти, обміркувати й оскаржити, навіть якщо вони не погоджуються з висновком [1, 4, 6].'],['p','Це особливо важливо в суспільстві світоглядного розмаїття. Люди можуть не поділяти однієї релігії, моральної теорії чи уявлення про добре життя. Публічне виправдання не вимагає, щоб усі мали однакові переконання. Воно вимагає, щоб державний примус не спирався лише на доктрину, авторитет якої частина громадян не визнає [1, 6].'],['p','Публічні причини не повинні перетворюватися на вузький перелік дозволених тем. Громадяни можуть обговорювати цінність природи, мистецтва, релігії та різних життєвих шляхів. Важливо, щоб пояснення державного рішення залишалося доступним для критики людьми з різними переконаннями [6, 15].']]},
+      {title:'Демократичне публічне виправдання', blocks:[['p','Громадянська рівність означає не лише однаковий захист прав, а й рівне становище людей як учасників політики. З цього випливає принцип спільного самозаконодавства: громадяни мають мати змогу демократично обирати закони та політики, якщо ті не заперечують рівного статусу інших. Публічне виправдання не повинно підміняти цей вибір вимогою, щоб політичні рішення відповідали єдиному наперед визначеному уявленню про розумність.'],['p','Причина є доступною не просто тоді, коли її можна викласти нейтральною мовою. Вона має бути зрозумілою конкретному громадянинові з огляду на оцінні мірки, яких він сам дотримується. Це не означає, що кожен отримує право вето. Йдеться про повагу до людей як до тих, хто здатен оцінювати доводи, а не лише підкорятися готовому рішенню.'],['p','Такий підхід не усуває проблем колективного вибору. Навіть послідовні особисті вподобання можуть давати суперечливий спільний результат, залежно від правил голосування й порядку питань. Тому важливі прозорі процедури, можливість перегляду рішень і публічний обмін доводами. Демократичне виправдання шукає спосіб зберегти вибір громадян, не вдаючи, ніби всі вже дійшли згоди.'],['p','Тягар виправдання також не завжди однаковий. Коли пропонують новий закон із глибоким втручанням у життя людей, саме прихильники такого примусу мають особливо переконливо пояснити його тим, кого він зачіпає. Від громадян, які захищають наявну свободу від такого втручання, не слід автоматично вимагати симетричного виправдання. Це не звільняє жодну сторону від обговорення, але враховує, хто прагне розширити примус і на кого ляже його тягар.']]},
+      {title:'Уряд у вільному суспільстві', blocks:[['p','Уряд не є ані нейтральною порожнечею, ані моральним наставником, який має нав’язати всім найкращий спосіб життя. Його завдання полягає в тому, щоб підтримувати умови спільного життя: охороняти права, забезпечувати безпеку, підтримувати доступ до суспільних благ і зберігати справедливі політичні інституції [3, 9, 16].'],['p','Уряд також має відповідати за наслідки власних рішень. Закони можуть формально ставитися до всіх однаково, але на практиці принижувати певні групи, позбавляти їх голосу або нерівномірно розподіляти тягарі. Оцінка влади тому має охоплювати і процедуру ухвалення, і те, як рішення впливає на громадян [7, 9].'],['p','У вільному суспільстві громадяни можуть не погоджуватися з рішенням і водночас визнавати право демократичних інституцій його ухвалити. Це можливо, якщо права захищені, участь є справедливою, а рішення можна публічно оскаржувати та переглядати.']]},
+      {title:'Демократія, процедура і спільний вибір', blocks:[['p','Голосування допомагає ухвалювати рішення, але не усуває всіх проблем. Результат інколи залежить від порядку голосування або від того, хто визначає порядок денний. Теорія суспільного вибору показує, що за певних умов послідовні індивідуальні вподобання можуть утворити суперечливий колективний результат [12, 13].'],['p','Це не аргумент проти демократії. Це нагадування, що голосування має відбуватися у прозорих умовах, з чесними правилами та можливістю переглянути рішення. Обговорення допомагає громадянам порівнювати причини, уточнювати розбіжності й бачити, які цінності стоять за різними варіантами [5, 7, 12].'],['p','Демократія є не лише підрахунком голосів. Вона потребує участі, доступу до інформації, вільного обміну думками та інституцій, які не дозволяють окремим групам привласнити політичну владу.']]},
+      {title:'Анархістська критика держави', blocks:[['p','Анархістська думка ставить радикальне запитання: звідки держава бере право примушувати людей? Навіть уряд, обраний демократично, може нав’язувати правила, зосереджувати владу, обмежувати свободу або захищати інтереси сильних. Ця критика нагадує, що законність сама по собі не робить владу справедливою [8, 14].'],['p','Ліберальна демократія відповідає не скасуванням усіх спільних правил, а вимогою обмежувати й пояснювати владу. Конституційні права, підзвітність, розподіл повноважень, незалежні суди та участь громадян мають зменшувати ризик свавільного панування. Водночас ці механізми самі повинні залишатися відкритими для критики [2, 8].'],['p','Анархістська перспектива корисна навіть для тих, хто не поділяє її висновку. Вона змушує запитувати, чи справді кожне втручання необхідне, хто отримує від нього користь і чи існує менш примусовий спосіб розв’язати проблему.']]},
+      {title:'Від суперництва до взаємної відповідальності', blocks:[['p','Лібералізм і демократія можуть підтримувати одне одного, якщо свободи дають громадянам змогу брати участь, а демократичні інституції дають їм вплив на спільні правила. Такий зв’язок не усуває незгоди, проте не дозволяє владі оголосити її приводом для виключення меншини з політичного життя [2, 3].'],['p','Уряд у вільному суспільстві має діяти не від імені єдиного світогляду, а на умовах, які визнають громадян рівними. Практичне мірило просте: чи захищені основні свободи, чи можуть люди впливати на рішення, чи зрозуміле виправдання державного примусу і чи можна його оскаржити?'],['p','Анархістська критика залишає відкритим граничне запитання про необхідність самої держави. Ліберально демократична відповідь має бути умовною: державна влада може бути виправданою лише тоді, коли вона обмежена, підзвітна та сумісна зі свободою і рівним статусом людей.']]}
+    ], closeTitle:'Вільне суспільство потребує більше, ніж обмеження влади.', closeText:'Йому потрібні права, рівна політична участь, публічне виправдання рішень і постійна готовність громадян оскаржувати свавільний примус.', question:'Як уряд може діяти спільно, не вимагаючи від усіх однакового способу мислення?', sourcesTitle:'Джерела та література', top:'На початок', sources:[
+      'John Rawls. Political Liberalism. Expanded edition. Columbia University Press, 2005.',
+      'Jürgen Habermas. On the Internal Relation between the Rule of Law and Democracy. European Journal of Philosophy, 1995.',
+      'Thomas Christiano. The Constitution of Equality: Democratic Authority and Its Limits. Oxford University Press, 2008.',
+      'Jonathan Quong. Liberalism Without Perfection. Oxford University Press, 2011.',
+      'Gerald Gaus. The Order of Public Reason. Cambridge University Press, 2011.',
+      'Cécile Laborde. Liberalism’s Religion. Harvard University Press, 2017.',
+      'Joshua Cohen. Deliberative Democracy. In Deliberation, Participation and Democracy, 2007.',
+      'Isaiah Berlin. Four Essays on Liberty. Oxford University Press, 1969.',
+      'Jonathan Wolff. Fairness, Respect, and the Egalitarian Ethos. Philosophy & Public Affairs, 1998.',
+      'Christopher Eberle. Religious Conviction in Liberal Politics. Cambridge University Press, 2002.',
+      'Brian Barry. Justice as Impartiality. Oxford University Press, 1995.',
+      'Christian List. The Discursive Dilemma and Public Reason. Ethics, 2006.',
+      'Kenneth Arrow. Social Choice and Individual Values. Wiley, 1963.',
+      'Will Kymlicka. Multicultural States and Intercultural Citizens. Theory and Research in Education, 2003.',
+      'Andrew Lister. Public Reason and Political Community. Bloomsbury, 2013.',
+      'Iris Marion Young. Responsibility for Justice. Oxford University Press, 2011.'
+    ]
+  },
+  en: {
+    langLabel:'Choose language', title:'Liberalism and democracy', lede:'How freedom, popular self government and state power can coexist in a society whose citizens hold different views of justice and the good life.',
+    intro:'Liberalism and democracy are neither natural allies nor inevitable rivals. Liberalism protects individual rights and freedoms. Democracy gives citizens a shared role in making binding rules. Their relationship raises a central question: when may government act for everyone, and what limits should apply to its power?',
+    sections:[
+      {title:'Freedom and collective self government',blocks:[['p','Liberal democracy brings together two principles. Each person has basic freedoms and equal civic standing. At the same time, laws must be made through political procedures in which citizens have a fair opportunity to participate. Rights protect people from arbitrary power, while democracy gives them a voice in shaping shared institutions [1, 2].'],['p','Tension arises when a majority supports a decision that restricts minority rights. The reverse problem also matters: excessive limits on democratic choice can leave citizens with little influence over the rules they must follow. A legitimate political order must protect fundamental freedoms while preserving meaningful participation [3, 4].'],['quote','Freedom needs protection from power, and democracy needs freedom if citizens are to make laws together.']]},
+      {title:'Civic equality as common ground',blocks:[['p','Civic equality means that the state recognises every person as an equal participant in political life, not as a second class subject. It does not require people to share a way of life or a set of beliefs. It requires equal respect, basic rights and a fair opportunity to influence public decisions [3, 7].'],['p','This idea supports collective self legislation. Citizens should be able to choose laws democratically, provided those laws do not deny others equal standing. Democracy without rights can become majority domination. Rights without democracy leave people subject to rules they did not help shape [1, 3].'],['p','When rights and democratic choice conflict, neither principle should automatically prevail in every case. The relevant question is which response does less harm to equal civic standing while keeping meaningful opportunities to challenge public power.']]},
+      {title:'Public justification of power',blocks:[['p','Government exercises coercive power. It makes laws, collects taxes and sets limits on conduct. A lawful procedure alone does not explain why its decisions may bind everyone. Public officials should offer reasons citizens can understand, consider and challenge, even when they reject the conclusion [1, 4, 6].'],['p','This matters especially in societies with deep differences of belief. Citizens may not share a religion, moral theory or account of the good life. Public justification does not require uniform beliefs. It requires that state coercion not rest only on a doctrine whose authority some citizens do not recognise [1, 6].'],['p','Public reasons should not become a narrow list of permitted topics. Citizens can discuss nature, art, religion and different ways of life. What matters is that an official explanation remains open to scrutiny by people with different commitments [6, 15].']]},
+      {title:'Democratic public justification',blocks:[['p','Civic equality means more than equal protection of rights. It also means that people stand as equals in political life. This supports a principle of collective self-legislation: citizens should be able to choose laws and policies democratically, provided these do not deny others equal standing. Public justification should not replace that choice with a demand that political decisions fit one predetermined account of what counts as reasonable.'],['p','A reason is accessible not merely because it can be stated in neutral language. It must be intelligible to each citizen in light of the evaluative standards that person holds. This does not give every individual a veto. It treats citizens as people capable of assessing arguments, rather than as recipients of a decision made for them.'],['p','This approach does not dissolve the difficulties of collective choice. Even consistent individual preferences can produce a conflicting collective result, depending on voting rules and the order in which questions are decided. Transparent procedures, opportunities to revise decisions and public exchange of reasons therefore matter. Democratic justification seeks to preserve citizens’ choice without pretending that everyone has already agreed.'],['p','The burden of justification is not always equal. When a proposed law deeply intrudes on people’s lives, those advocating that coercion have a particularly strong responsibility to explain it to the people affected. Citizens defending their existing freedom from that intrusion should not automatically face an identical burden. This does not remove the need for debate. It recognises who seeks to extend coercion and who will bear its costs.']]},
+      {title:'Government in a free society',blocks:[['p','Government should be neither an empty neutral space nor a moral tutor imposing one best way to live. Its task is to sustain the conditions of shared life: protect rights, provide security, support access to public goods and maintain fair political institutions [3, 9, 16].'],['p','Government must also answer for the effects of its decisions. A law may formally treat everyone alike and still humiliate a group, deny its members a political voice or distribute burdens unfairly. Assessing power therefore requires attention to both the decision making process and its effects on citizens [7, 9].'],['p','In a free society, citizens may reject a decision while recognising the authority of democratic institutions to make it. This is possible when rights are protected, participation is fair and decisions remain open to public challenge and revision.']]},
+      {title:'Democracy, procedure and shared choice',blocks:[['p','Voting helps settle disputes, but it does not solve every problem. Outcomes can depend on the order of a vote or on who controls the agenda. Social choice theory shows that consistent individual preferences can, under certain conditions, produce an inconsistent collective result [12, 13].'],['p','This is not an argument against democracy. It is a reason to use transparent procedures, fair rules and meaningful opportunities to reconsider decisions. Deliberation helps citizens compare reasons, clarify disagreement and identify the values behind different proposals [5, 7, 12].'],['p','Democracy is more than counting votes. It requires participation, access to information, free exchange of views and institutions that prevent any one group from monopolising political power.']]},
+      {title:'The anarchist challenge to the state',blocks:[['p','Anarchist thought asks a radical question: what gives the state the right to compel people? Even an elected government can impose rules, concentrate power, restrict freedom or protect the interests of the powerful. This critique reminds us that legality alone does not make authority just [8, 14].'],['p','Liberal democracy answers not by abolishing every shared rule, but by limiting and explaining public power. Constitutional rights, accountability, divided authority, independent courts and civic participation can reduce arbitrary domination. These institutions must themselves remain open to criticism [2, 8].'],['p','The anarchist perspective is useful even to those who reject its conclusion. It asks whether each intervention is necessary, who benefits from it and whether a less coercive response could address the problem.']]},
+      {title:'From rivalry to shared responsibility',blocks:[['p','Liberalism and democracy can support one another when freedoms allow citizens to participate and democratic institutions give them influence over common rules. This relationship does not eliminate disagreement. It prevents disagreement from becoming an excuse to exclude minorities from political life [2, 3].'],['p','Government in a free society should act without demanding a single worldview. Its decisions should recognise citizens as equals. A practical test is whether basic freedoms are protected, people can influence decisions, the reasons for coercion can be understood and those reasons can be challenged.'],['p','The anarchist critique leaves open the fundamental question of whether the state is necessary at all. A liberal democratic answer must remain conditional: public power is defensible only when it is limited, accountable and compatible with freedom and equal standing.']]}
+    ],closeTitle:'A free society needs more than limits on power.',closeText:'It needs rights, equal political participation, public reasons for decisions and a continuing willingness to challenge arbitrary coercion.',question:'How can government act for everyone without requiring everyone to think alike?',sourcesTitle:'Sources and further reading',top:'Back to top',sources:[
+      'John Rawls. Political Liberalism. Expanded edition. Columbia University Press, 2005.',
+      'Jürgen Habermas. On the Internal Relation between the Rule of Law and Democracy. European Journal of Philosophy, 1995.',
+      'Thomas Christiano. The Constitution of Equality: Democratic Authority and Its Limits. Oxford University Press, 2008.',
+      'Jonathan Quong. Liberalism Without Perfection. Oxford University Press, 2011.',
+      'Gerald Gaus. The Order of Public Reason. Cambridge University Press, 2011.',
+      'Cécile Laborde. Liberalism’s Religion. Harvard University Press, 2017.',
+      'Joshua Cohen. Deliberative Democracy. In Deliberation, Participation and Democracy, 2007.',
+      'Isaiah Berlin. Four Essays on Liberty. Oxford University Press, 1969.',
+      'Jonathan Wolff. Fairness, Respect, and the Egalitarian Ethos. Philosophy & Public Affairs, 1998.',
+      'Christopher Eberle. Religious Conviction in Liberal Politics. Cambridge University Press, 2002.',
+      'Brian Barry. Justice as Impartiality. Oxford University Press, 1995.',
+      'Christian List. The Discursive Dilemma and Public Reason. Ethics, 2006.',
+      'Kenneth Arrow. Social Choice and Individual Values. Wiley, 1963.',
+      'Will Kymlicka. Multicultural States and Intercultural Citizens. Theory and Research in Education, 2003.',
+      'Andrew Lister. Public Reason and Political Community. Bloomsbury, 2013.',
+      'Iris Marion Young. Responsibility for Justice. Oxford University Press, 2011.'
+    ]
+  },
+  de: {
+    langLabel:'Sprache auswählen',title:'Liberalismus und Demokratie',lede:'Wie Freiheit, Volksherrschaft und staatliche Macht in einer Gesellschaft zusammenwirken können, deren Bürger unterschiedliche Vorstellungen von Gerechtigkeit und gutem Leben haben.',
+    intro:'Liberalismus und Demokratie sind weder natürliche Verbündete noch unvermeidliche Gegner. Der Liberalismus schützt individuelle Rechte und Freiheiten. Die Demokratie gibt Bürgern eine gemeinsame Rolle bei der Gestaltung verbindlicher Regeln. Ihr Verhältnis wirft eine zentrale Frage auf: Wann darf die Regierung für alle handeln, und welche Grenzen gelten für ihre Macht?',
+    sections:[
+      {title:'Freiheit und gemeinsame Selbstregierung',blocks:[['p','Die liberale Demokratie verbindet zwei Grundsätze. Jeder Mensch besitzt grundlegende Freiheiten und den gleichen Bürgerstatus. Zugleich müssen Gesetze durch politische Verfahren entstehen, in denen Bürger faire Möglichkeiten zur Mitwirkung haben. Rechte schützen Menschen vor Willkür, während Demokratie ihnen eine Stimme bei der Gestaltung gemeinsamer Institutionen gibt [1, 2].'],['p','Spannungen entstehen, wenn eine Mehrheit eine Entscheidung unterstützt, die die Rechte einer Minderheit einschränkt. Auch die umgekehrte Gefahr zählt: Übermäßige Grenzen demokratischer Entscheidungen können Bürgern kaum Einfluss auf die Regeln lassen, denen sie unterliegen. Eine legitime Ordnung muss grundlegende Freiheiten schützen und zugleich echte politische Teilhabe ermöglichen [3, 4].'],['quote','Freiheit braucht Schutz vor Macht, und Demokratie braucht Freiheit, damit Bürger gemeinsam Gesetze gestalten können.']]},
+      {title:'Bürgerliche Gleichheit als gemeinsame Grundlage',blocks:[['p','Bürgerliche Gleichheit bedeutet, dass der Staat jeden Menschen als gleichberechtigten Teilnehmer des politischen Lebens anerkennt und nicht als Bürger zweiter Klasse. Sie verlangt weder eine gemeinsame Lebensweise noch gleiche Überzeugungen. Sie verlangt gleiche Achtung, Grundrechte und faire Möglichkeiten, öffentliche Entscheidungen zu beeinflussen [3, 7].'],['p','Aus diesem Gedanken folgt die gemeinsame Selbstgesetzgebung. Bürger sollen Gesetze demokratisch wählen können, sofern diese anderen nicht den gleichen Status nehmen. Demokratie ohne Rechte kann zur Herrschaft der Mehrheit werden. Rechte ohne Demokratie machen Menschen zu Empfängern von Regeln, an deren Gestaltung sie nicht mitwirken konnten [1, 3].'],['p','Wenn Rechte und demokratische Entscheidungen in Konflikt geraten, sollte nicht immer automatisch derselbe Grundsatz Vorrang haben. Entscheidend ist, welche Lösung den gleichen Bürgerstatus weniger beeinträchtigt und echte Möglichkeiten zur Kritik an staatlicher Macht bewahrt.']]},
+      {title:'Öffentliche Rechtfertigung staatlicher Macht',blocks:[['p','Der Staat übt Zwang aus. Er erlässt Gesetze, erhebt Steuern und bestimmt Grenzen erlaubten Handelns. Ein rechtmäßiges Verfahren allein erklärt noch nicht, warum seine Entscheidungen für alle verbindlich sein dürfen. Amtsträger sollten Gründe nennen, die Bürger verstehen, prüfen und anfechten können, auch wenn sie das Ergebnis ablehnen [1, 4, 6].'],['p','Das ist besonders wichtig in Gesellschaften mit tiefgreifenden weltanschaulichen Unterschieden. Bürger teilen möglicherweise weder eine Religion noch eine Moraltheorie oder eine Vorstellung vom guten Leben. Öffentliche Rechtfertigung verlangt keine einheitlichen Überzeugungen. Staatlicher Zwang darf sich jedoch nicht allein auf eine Lehre stützen, deren Autorität manche Bürger nicht anerkennen [1, 6].'],['p','Öffentliche Gründe sollten nicht zu einer engen Liste erlaubter Themen werden. Bürger können über Natur, Kunst, Religion und verschiedene Lebensweisen sprechen. Entscheidend ist, dass staatliche Entscheidungen auch für Menschen mit anderen Überzeugungen nachvollziehbar und kritisierbar bleiben [6, 15].']]},
+      {title:'Demokratische öffentliche Rechtfertigung',blocks:[['p','Bürgerliche Gleichheit bedeutet mehr als den gleichen Schutz von Rechten. Sie bedeutet auch, dass Menschen im politischen Leben als Gleiche gelten. Daraus folgt ein Prinzip gemeinsamer Selbstgesetzgebung: Bürger sollen Gesetze und politische Maßnahmen demokratisch wählen können, sofern diese anderen nicht den gleichen Status absprechen. Öffentliche Rechtfertigung sollte diese Entscheidung nicht durch die Forderung ersetzen, politische Beschlüsse müssten einem einzigen vorab festgelegten Begriff des Vernünftigen entsprechen.'],['p','Ein Grund ist nicht schon deshalb zugänglich, weil er sich in neutraler Sprache formulieren lässt. Er muss für jeden Bürger anhand der Maßstäbe verständlich sein, nach denen dieser selbst Werte beurteilt. Daraus folgt kein individuelles Vetorecht. Es geht darum, Bürger als Menschen anzuerkennen, die Gründe prüfen können, statt sie nur einem fertigen Beschluss zu unterwerfen.'],['p','Dieser Ansatz beseitigt die Schwierigkeiten kollektiver Entscheidungen nicht. Selbst widerspruchsfreie persönliche Präferenzen können je nach Abstimmungsregeln und Reihenfolge der Fragen zu einem widersprüchlichen Gesamtergebnis führen. Transparente Verfahren, die Möglichkeit zur Überprüfung und ein öffentlicher Austausch von Gründen bleiben deshalb wichtig. Demokratische Rechtfertigung soll die Entscheidungsmöglichkeiten der Bürger bewahren, ohne eine bereits erreichte Einigkeit vorzutäuschen.'],['p','Die Rechtfertigungslast ist zudem nicht immer gleich verteilt. Wenn ein geplantes Gesetz tief in das Leben der Menschen eingreift, tragen diejenigen, die diesen Zwang befürworten, eine besonders starke Verantwortung, ihn den Betroffenen zu erklären. Bürger, die ihre bestehende Freiheit gegen einen solchen Eingriff verteidigen, sollten nicht automatisch dieselbe Last tragen. Das beendet die Diskussion nicht, berücksichtigt aber, wer den Zwang ausweiten will und wer seine Folgen tragen muss.']]},
+      {title:'Die Regierung in einer freien Gesellschaft',blocks:[['p','Die Regierung sollte weder ein leerer neutraler Raum noch eine moralische Lehrerin sein, die allen die beste Lebensweise vorschreibt. Ihre Aufgabe ist es, die Bedingungen des gemeinsamen Lebens zu sichern: Rechte schützen, Sicherheit gewährleisten, Zugang zu öffentlichen Gütern unterstützen und faire politische Institutionen erhalten [3, 9, 16].'],['p','Die Regierung muss auch für die Folgen ihrer Entscheidungen einstehen. Ein Gesetz kann formal alle gleich behandeln und dennoch eine Gruppe demütigen, ihren politischen Einfluss beschränken oder Lasten unfair verteilen. Die Beurteilung staatlicher Macht muss deshalb sowohl das Verfahren als auch seine Auswirkungen auf die Bürger berücksichtigen [7, 9].'],['p','In einer freien Gesellschaft können Bürger eine Entscheidung ablehnen und zugleich anerkennen, dass demokratische Institutionen sie treffen dürfen. Das setzt geschützte Rechte, faire Beteiligung und die Möglichkeit voraus, Entscheidungen öffentlich anzufechten und zu ändern.']]},
+      {title:'Demokratie, Verfahren und gemeinsame Entscheidungen',blocks:[['p','Abstimmungen helfen, Konflikte zu entscheiden, lösen aber nicht jedes Problem. Das Ergebnis kann von der Reihenfolge der Abstimmung oder davon abhängen, wer die Tagesordnung bestimmt. Die Theorie kollektiver Entscheidungen zeigt, dass widerspruchsfreie individuelle Präferenzen unter bestimmten Bedingungen zu einem widersprüchlichen Gesamtergebnis führen können [12, 13].'],['p','Das ist kein Argument gegen Demokratie. Es ist ein Grund für transparente Verfahren, faire Regeln und echte Möglichkeiten, Entscheidungen zu überprüfen. Öffentliche Beratung hilft Bürgern, Gründe zu vergleichen, Meinungsverschiedenheiten zu klären und die Werte hinter verschiedenen Vorschlägen zu erkennen [5, 7, 12].'],['p','Demokratie bedeutet mehr als Stimmen zu zählen. Sie verlangt Beteiligung, Zugang zu Informationen, freien Meinungsaustausch und Institutionen, die verhindern, dass eine einzelne Gruppe politische Macht für sich beansprucht.']]},
+      {title:'Die anarchistische Kritik am Staat',blocks:[['p','Anarchistisches Denken stellt eine grundlegende Frage: Woher nimmt der Staat das Recht, Menschen zu zwingen? Auch eine gewählte Regierung kann Regeln aufzwingen, Macht konzentrieren, Freiheit beschränken oder die Interessen der Mächtigen schützen. Diese Kritik erinnert daran, dass Legalität staatliche Autorität nicht automatisch gerecht macht [8, 14].'],['p','Die liberale Demokratie antwortet nicht mit der Abschaffung aller gemeinsamen Regeln, sondern mit der Forderung, staatliche Macht zu begrenzen und zu erklären. Verfassungsrechte, Rechenschaftspflicht, geteilte Zuständigkeiten, unabhängige Gerichte und Bürgerbeteiligung sollen willkürliche Herrschaft erschweren. Auch diese Institutionen müssen kritisierbar bleiben [2, 8].'],['p','Die anarchistische Perspektive ist auch für jene wertvoll, die ihre Schlussfolgerung ablehnen. Sie fragt, ob jeder Eingriff notwendig ist, wer davon profitiert und ob eine weniger zwingende Lösung das Problem bewältigen könnte.']]},
+      {title:'Von Rivalität zu gemeinsamer Verantwortung',blocks:[['p','Liberalismus und Demokratie können einander stärken, wenn Freiheiten politische Beteiligung ermöglichen und demokratische Institutionen Bürgern Einfluss auf gemeinsame Regeln geben. Meinungsverschiedenheiten verschwinden dadurch nicht. Sie dürfen aber nicht zum Vorwand werden, Minderheiten aus dem politischen Leben auszuschließen [2, 3].'],['p','Eine Regierung in einer freien Gesellschaft sollte nicht eine einzige Weltanschauung verlangen. Ihre Entscheidungen müssen Bürger als Gleiche anerkennen. Eine praktische Prüfung lautet: Sind Grundfreiheiten geschützt, können Menschen Entscheidungen beeinflussen, sind die Gründe für staatlichen Zwang verständlich und lassen sie sich anfechten?'],['p','Die anarchistische Kritik lässt die grundlegende Frage offen, ob der Staat überhaupt notwendig ist. Eine liberale demokratische Antwort muss bedingt bleiben: Staatliche Macht ist nur dann vertretbar, wenn sie begrenzt und rechenschaftspflichtig ist und mit Freiheit und gleichem Status vereinbar bleibt.']]}
+    ],closeTitle:'Eine freie Gesellschaft braucht mehr als Grenzen der Macht.',closeText:'Sie braucht Rechte, gleiche politische Teilhabe, öffentliche Rechtfertigung und die Bereitschaft, willkürlichen Zwang immer wieder anzufechten.',question:'Wie kann eine Regierung für alle handeln, ohne allen dieselbe Denkweise abzuverlangen?',sourcesTitle:'Quellen und weiterführende Literatur',top:'Nach oben',sources:[
+      'John Rawls. Political Liberalism. Expanded edition. Columbia University Press, 2005.',
+      'Jürgen Habermas. On the Internal Relation between the Rule of Law and Democracy. European Journal of Philosophy, 1995.',
+      'Thomas Christiano. The Constitution of Equality: Democratic Authority and Its Limits. Oxford University Press, 2008.',
+      'Jonathan Quong. Liberalism Without Perfection. Oxford University Press, 2011.',
+      'Gerald Gaus. The Order of Public Reason. Cambridge University Press, 2011.',
+      'Cécile Laborde. Liberalism’s Religion. Harvard University Press, 2017.',
+      'Joshua Cohen. Deliberative Democracy. In Deliberation, Participation and Democracy, 2007.',
+      'Isaiah Berlin. Four Essays on Liberty. Oxford University Press, 1969.',
+      'Jonathan Wolff. Fairness, Respect, and the Egalitarian Ethos. Philosophy & Public Affairs, 1998.',
+      'Christopher Eberle. Religious Conviction in Liberal Politics. Cambridge University Press, 2002.',
+      'Brian Barry. Justice as Impartiality. Oxford University Press, 1995.',
+      'Christian List. The Discursive Dilemma and Public Reason. Ethics, 2006.',
+      'Kenneth Arrow. Social Choice and Individual Values. Wiley, 1963.',
+      'Will Kymlicka. Multicultural States and Intercultural Citizens. Theory and Research in Education, 2003.',
+      'Andrew Lister. Public Reason and Political Community. Bloomsbury, 2013.',
+      'Iris Marion Young. Responsibility for Justice. Oxford University Press, 2011.'
+    ]
+  }
+};
+
+const languageSelect = document.getElementById('language');
+function renderLanguage(lang) {
+  const data = copy[lang] || copy.uk;
+  document.documentElement.lang = lang;
+  document.title = data.title;
+  document.getElementById('language-label').textContent = data.langLabel;
+  document.getElementById('hero-title').textContent = data.title;
+  document.getElementById('hero-lede').textContent = data.lede;
+  document.getElementById('back-top').setAttribute('aria-label', data.top);
+
+  const article = document.getElementById('essay-content');
+  article.innerHTML = `<p class="intro reveal">${data.intro}</p>` + data.sections.map(section => `
+    <section class="essay-section reveal">
+      <h2>${section.title}</h2>
+      ${section.blocks.map(block => block[0] === 'quote' ? `<blockquote class="pull-quote">${block[1]}</blockquote>` : `<p>${block[1]}</p>`).join('')}
+    </section>`).join('');
+  document.getElementById('closing').innerHTML = `<div class="closing-inner reveal"><h2>${data.closeTitle}</h2><p>${data.closeText}</p><p class="closing-question">${data.question}</p></div>`;
+  document.getElementById('sources').innerHTML = `<div class="sources-inner"><p class="sources-label">${data.sourcesTitle}</p><ol class="sources-list">${data.sources.map(source => `<li>${source}</li>`).join('')}</ol></div>`;
+  observeReveals();
+}
+
+let revealObserver;
+function observeReveals() {
+  if (revealObserver) revealObserver.disconnect();
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.querySelectorAll('.reveal').forEach(element => element.classList.add('is-visible'));
+    return;
+  }
+  revealObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(element => revealObserver.observe(element));
+}
+
+languageSelect.addEventListener('change', event => renderLanguage(event.target.value));
+renderLanguage(languageSelect.value);
+
+const backTop = document.getElementById('back-top');
+const progressBar = document.querySelector('.scroll-progress');
+const progressFill = document.getElementById('scroll-progress-fill');
+function updateReadingProgress() {
+  const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+  const progress = maxScroll > 0 ? Math.min(100, Math.max(0, window.scrollY / maxScroll * 100)) : 0;
+  progressFill.style.transform = `scaleX(${progress / 100})`;
+  progressBar.setAttribute('aria-valuenow', String(Math.round(progress)));
+}
+window.addEventListener('scroll', () => {
+  backTop.classList.toggle('visible', window.scrollY > 480);
+  updateReadingProgress();
+}, { passive: true });
+window.addEventListener('resize', updateReadingProgress);
+updateReadingProgress();
+backTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+const canvas = document.getElementById('atmosphere');
+const context = canvas.getContext('2d');
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+let width = 0, height = 0, scrollTarget = 0, smoothScroll = 0;
+let nodes = [];
+
+function resizeCanvas() {
+  const ratio = Math.min(window.devicePixelRatio || 1, 2);
+  width = window.innerWidth;
+  height = window.innerHeight;
+  canvas.width = width * ratio;
+  canvas.height = height * ratio;
+  context.setTransform(ratio, 0, 0, ratio, 0, 0);
+  nodes = Array.from({ length: Math.min(48, Math.floor(width * height / 22000)) }, () => ({
+    x: Math.random() * width,
+    y: Math.random() * height,
+    radius: Math.random() * 1.2 + .6
+  }));
+  if (reduceMotion) drawAtmosphere();
+}
+
+function wrap(value, range) {
+  return ((value % range) + range) % range;
+}
+
+function drawAtmosphere() {
+  if (!reduceMotion) smoothScroll += (scrollTarget - smoothScroll) * .075;
+  const scroll = reduceMotion ? 0 : smoothScroll;
+  context.clearRect(0, 0, width, height);
+
+  const unit = Math.min(width, height);
+  const base = unit * (width < 600 ? .17 : .22);
+  const range = height + base * 5;
+  const wrapY = (start, speed) => wrap(start - scroll * speed + base * 2, range) - base * 2;
+  const stroke = (color, alpha) => { context.strokeStyle = `rgba(${color},${alpha})`; context.lineWidth = 1; };
+
+  // Intersecting circles and a soft square form the main, slowly drifting layer.
+  const cx = width * .76 + Math.sin(scroll * .0002) * 12;
+  const cy = wrapY(height * .33, .11);
+  context.save();
+  context.translate(cx, cy);
+  context.rotate(-.16 + scroll * .000025);
+  stroke('215,185,119', .13);
+  context.strokeRect(-base * .78, -base * .78, base * 1.56, base * 1.56);
+  [[-.38, -.12, .9, '158,185,165'], [.36, .08, .86, '215,185,119'], [0, .38, .57, '158,185,165']].forEach(([x, y, scale, color]) => {
+    context.beginPath();
+    context.arc(base * x, base * y, base * scale, 0, Math.PI * 2);
+    context.fillStyle = `rgba(${color},.012)`;
+    context.fill();
+    stroke(color, .12);
+    context.stroke();
+  });
+  context.restore();
+
+  // A second layer of rules and a square grid drifts in the opposite direction.
+  const gridSize = Math.min(unit * .24, 220);
+  context.save();
+  context.translate(width * .18, wrapY(height * .69, -.045));
+  context.rotate(-.035 - scroll * .000016);
+  stroke('158,185,165', .075);
+  context.strokeRect(-gridSize / 2, -gridSize / 2, gridSize, gridSize);
+  for (let i = 1; i < 4; i++) {
+    const offset = -gridSize / 2 + gridSize * i / 4;
+    context.beginPath();
+    context.moveTo(offset, -gridSize / 2); context.lineTo(offset, gridSize / 2);
+    context.moveTo(-gridSize / 2, offset); context.lineTo(gridSize / 2, offset);
+    context.stroke();
+  }
+  context.restore();
+
+  // Light triangles and wireframe pyramids add variety without framing the text.
+  const drawTriangle = (x, y, size, rotation, color) => {
+    context.save();
+    context.translate(x, y);
+    context.rotate(rotation);
+    context.beginPath();
+    context.moveTo(0, -size / 2);
+    context.lineTo(size / 2, size / 2);
+    context.lineTo(-size / 2, size / 2);
+    context.closePath();
+    stroke(color, .095);
+    context.stroke();
+    context.restore();
+  };
+  drawTriangle(width * .82, wrapY(height * .76, .075), base * .55, scroll * .00003, '215,185,119');
+  drawTriangle(width * .12, wrapY(height * .2, -.06), base * .38, -.3 - scroll * .00002, '158,185,165');
+  const px = width * .48, py = wrapY(height * .88, .13), ps = base * .36;
+  context.beginPath();
+  context.moveTo(px, py - ps); context.lineTo(px - ps, py + ps * .55);
+  context.lineTo(px + ps, py + ps * .55); context.closePath();
+  stroke('215,185,119', .09); context.stroke();
+  context.beginPath();
+  context.moveTo(px, py - ps); context.lineTo(px, py + ps * .55);
+  context.moveTo(px, py + ps * .55); context.lineTo(px - ps, py + ps * .55);
+  context.moveTo(px, py + ps * .55); context.lineTo(px + ps, py + ps * .55);
+  context.stroke();
+
+  // Sparse parallel strokes move at a faster parallax rate than the larger forms.
+  const lineY = wrapY(height * .48, -.085);
+  stroke('207,197,157', .045);
+  for (let i = 0; i < 7; i++) {
+    const x = width * (.08 + i * .13);
+    context.beginPath();
+    context.moveTo(x, lineY - 28 - i * 7);
+    context.lineTo(x + 44 + i * 4, lineY + 28 + i * 5);
+    context.stroke();
+  }
+
+  const networkRange = height + 80;
+  const points = nodes.map(node => ({
+    x: node.x,
+    y: wrap(node.y - scroll * .055, networkRange) - 40
+  }));
+  points.forEach((point, index) => {
+    for (let next = index + 1; next < points.length; next++) {
+      const other = points[next];
+      const distance = Math.hypot(other.x - point.x, other.y - point.y);
+      if (distance < 105) {
+        context.beginPath();
+        context.moveTo(point.x, point.y);
+        context.lineTo(other.x, other.y);
+        context.strokeStyle = `rgba(207,197,157,${.04 * (1 - distance / 130)})`;
+        context.stroke();
+      }
+    }
+    context.beginPath();
+    context.arc(point.x, point.y, nodes[index].radius, 0, Math.PI * 2);
+    context.fillStyle = 'rgba(207,197,157,.13)';
+    context.fill();
+  });
+
+  if (!reduceMotion) requestAnimationFrame(drawAtmosphere);
+}
+
+window.addEventListener('resize', resizeCanvas);
+window.addEventListener('scroll', () => { scrollTarget = window.scrollY; }, { passive: true });
+resizeCanvas();
+if (!reduceMotion) requestAnimationFrame(drawAtmosphere);
+    </script>
+  </body>
+</html>
